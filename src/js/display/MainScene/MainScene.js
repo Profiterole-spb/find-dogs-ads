@@ -1,10 +1,9 @@
-import {Container, Sprite, AnimatedSprite} from 'pixi.js/dist/browser/pixi.min.mjs'
-import {preloadPack} from "../preloadPack/preloadPack";
-import Core from "../../core/Core";
-import Viewport from "src/js/Viewport/Viewport";
+import {Container, Sprite, AnimatedSprite} from 'pixi.js/dist/browser/pixi.min.mjs';
+import {preloadPack} from '../preloadPack/preloadPack';
+import Core from '../../core/Core';
+import Viewport from 'src/js/Viewport/Viewport';
 
-export default class MainScene extends Container{
-
+export default class MainScene extends Container {
   static get() {
     if (!this._scene) {
       this._scene = new MainScene();
@@ -33,7 +32,7 @@ export default class MainScene extends Container{
   }
 
   constructor() {
-    super()
+    super();
     this._background = new Sprite(Core.getTexture(preloadPack.background));
     this.addChild(this._background);
     this._dogs = [];
@@ -60,15 +59,16 @@ export default class MainScene extends Container{
     });
     if (this._circles && this._clickCount) {
       this._circles.forEach((c, i) => {
-        c.x = this._dogs[this._clickCount[i]].width / 2 + this.dogsPositions[this._clickCount[i]].x;
-        c.y = this._dogs[this._clickCount[i]].height / 2 + this.dogsPositions[this._clickCount[i]].y;
-      })
+        const index = this._clickCount[i];
+        c.x = this._dogs[index].width / 2 + this.dogsPositions[index].x;
+        c.y = this._dogs[index].height / 2 + this.dogsPositions[index].y;
+      });
     }
   }
 
   destroy() {
-    Core.get().renderer.off('resize', this.resize)
-    this.removeChild(this._background)
+    Core.get().renderer.off('resize', this.resize);
+    this.removeChild(this._background);
     this._background.destroy();
     super.destroy();
   }
@@ -79,15 +79,15 @@ export default class MainScene extends Container{
       this._clickCount = [];
 
       const onDogClickHandler = (e) => {
-        console.log('CLICK ON DOG', e)
+        console.log('CLICK ON DOG', e);
         e.target.interactive = false;
         this._clickCount.push(this._dogs.indexOf(e.target));
-        console.log('clickCount', this._clickCount)
+        console.log('clickCount', this._clickCount);
         const circle = new AnimatedSprite(this.circleTextures);
         this._circles.push(circle);
         circle.x = e.target.width / 2 + e.target.x;
         circle.y = e.target.height / 2 + e.target.y;
-        circle.anchor.set(0.5)
+        circle.anchor.set(0.5);
         circle.loop = false;
         circle.animationSpeed = 0.5;
         this.addChild(circle);
@@ -95,11 +95,11 @@ export default class MainScene extends Container{
         if (this._clickCount.length === 5) {
           resolve();
         }
-      }
+      };
 
       this._dogs.forEach((dog) => {
         dog.on('pointerup', onDogClickHandler, this);
-      })
-    })
+      });
+    });
   }
 }

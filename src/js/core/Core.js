@@ -1,14 +1,13 @@
-import * as PIXI from "pixi.js/dist/browser/pixi.min.mjs"
+import * as PIXI from 'pixi.js/dist/browser/pixi.min.mjs';
 
 export default class Core {
-
   static get config() {
     return {
       autoDensity: true,
       resolution: window.devicePixelRatio,
       resizeTo: document.body,
-      antialias: true
-    }
+      antialias: true,
+    };
   }
 
   static get() {
@@ -19,15 +18,14 @@ export default class Core {
   }
 
   static load(src) {
-    console.log('load resources', src)
-    return new Promise((resolve, reject) => {
+    console.log('load resources', src);
+    return new Promise((resolve) => {
       this._core.loader.onError = () => {
         throw new Error('loading error');
-        reject();
-      }
-      this._core.loader.add(src)
+      };
+      this._core.loader.add(src);
       this._core.loader.load(() => resolve());
-    })
+    });
   }
 
   static getTexture(src) {
