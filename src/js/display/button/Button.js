@@ -19,7 +19,7 @@ export class Button extends Sprite {
     this.interactive = true;
     this.buttonMode = true;
     this.on('pointerup', () => {
-      document.location.href = "http://www.google.com";
+      document.location.href = "https://github.com/Profiterole-spb/find-dogs-ads";
     });
     this._caption = new Text(
       'Play Now',
